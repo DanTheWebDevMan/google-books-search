@@ -9,14 +9,10 @@ const mongoose = require("mongoose");
 var axios = require("axios");
 var db = require("./models");
 
-// var PORT = 3000;
-
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/googlebooks", { useNewUrlParser: true });
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
@@ -25,6 +21,9 @@ if (process.env.NODE_ENV === "production") {
 
 // Define API routes here
 app.use(routes);
+
+// Connect to the Mongo DB
+mongoose.connect("mongodb://localhost/googlebooks", { useNewUrlParser: true });
 
 
 // Send every other request to the React app
