@@ -1,7 +1,8 @@
 //required libraries
+//express allows you to creates server and work on the backend
 const express = require("express");
 const path = require("path");
-// const PORT = process.env.PORT || 3001;
+// s;
 // initialize express
 const app = express();
 const mongoose = require("mongoose");
@@ -24,22 +25,16 @@ if (process.env.NODE_ENV === "production") {
 
 // Define API routes here
 app.use(routes);
-// A GET route for scraping the echoJS website
-app.get("/scrape", function (req, res) {
-  // First, we grab the body of the html with axios
-  axios.get("https://www.nytimes.com/section/nyregion").then(function (response) {
 
 
+// Send every other request to the React app
+// Define any API routes before this runs
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+});
 
-
-    // Send every other request to the React app
-    // Define any API routes before this runs
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "./client/build/index.html"));
-    });
-
-    app.listen(PORT, () => {
-      console.log(`🌎 ==> API server now on port ${PORT}!`);
-    });
+app.listen(PORT, () => {
+  console.log(`🌎 ==> API server now on port ${PORT}!`);
+});
 
 
