@@ -1,94 +1,84 @@
+
 import React, { Component } from "react";
-import axios from "axios";
-import AddBookBtn from "../../components/AddBookBtn";
-import { Row, Col } from "../../components/Grid";
-import { BookList, BookListItem } from "../../components/BookList";
-import EmptyList from "../../components/EmptyList";
+import { Link, Redirect } from "react-router-dom";
+import Jumbotron from "../../components/jumbotron";
+import API from "../../utils/API";
+import { Container } from "../../components/grid";
+import { Input, FormBtn } from "../../components/form";
 
 class Search extends Component {
     state = {
-        searchRes: [],
-        query: "",
-        books: []
+        title: "",
+        toResults: false,
+        results: []
     };
 
-    displayRes = data => {
-        this.setState({ books: data.items });
-    };
-
-    //You can perform a volumes search by sending an HTTP GET request to the following URI: https://www.googleapis.com/books/v1/volumes?q=search+terms
-    searchGBooks = () => {
-        let url = `https://www.googleapis.com/books/v1/volumes?q=${
-            this.state.query
-            }`;
-        axios
-            .get(url)
-            .then(res => {
-                //console.log(res);
-                this.displayRes(res.data);
-            })
-            .catch(err => console.log(err));
-    };
-
-    handleInput = event => {
+    handleInputChange = event => {
         const { name, value } = event.target;
         this.setState({
             [name]: value
         });
-        //console.log("Query", this.state.query);
     };
 
+    handleFormSubmit = event => {
+        event.preventDefault();
+        if (this.state.title) {
+
+            const title = this.state.title.trim();
+
+            API.getNewBooks(title)
+                .then(res => {
+
+                    console.log(res.data.items);
+
+                    this.setState({
+                        toResults: true,
+                        results: res.data.items
+                    });
+                })
+                .catch(err => console.log(err));
+        }
+    };
 
     render() {
+        if (this.state.toResults) {
+            return <Redirect to={{
+                pathname: "/results",
+                data: { results: this.state.results }
+            }} />
+        }
         return (
-            <Row>
-                <Col size="md-12">
-                    <div>
-                        <input id="bookQ" className="form-control form-control-lg" autoComplete="off" type="text" name="query" onChange={this.handleInput} />
-                        <button type="submit" onClick={this.searchGBooks} >
-                            Search for Books
-        </button>
-
-
-                        {(this.state.books && this.state.books.length > 0) ?
-                            <BookList>
-                                {this.state.books.map(book => {
-                                    return (
-                                        <div>
-                                            <BookListItem
-                                                key={book.id}
-                                                authors={book.volumeInfo.authors ? book.volumeInfo.authors : ["No Author Available"]}
-                                                title={book.volumeInfo.title}
-                                                synopsis={book.volumeInfo.description ?
-                                                    book.volumeInfo.description : "No Description Available"}
-                                                link={book.volumeInfo.infoLink}
-                                                thumbnail={book.volumeInfo.imageLinks.thumbnail ?
-                                                    book.volumeInfo.imageLinks.thumbnail : "#"}
-                                            />
-
-                                            <AddBookBtn
-                                                authors={book.volumeInfo.authors ? book.volumeInfo.authors : ["No Author Available"]}
-                                                title={book.volumeInfo.title}
-                                                synopsis={book.volumeInfo.description ?
-                                                    book.volumeInfo.description : "No Description Available"}
-                                                link={book.volumeInfo.infoLink}
-                                                thumbnail={book.volumeInfo.imageLinks.thumbnail ?
-                                                    book.volumeInfo.imageLinks.thumbnail : "#"}
-
-                                            />
-                                        </div>
-                                    )
-                                })}
-                            </BookList>
-                            :
-                            <EmptyList />
-                        }
-
-                    </div>
-                </Col>
-            </Row>
+            <div>
+                <Jumbotron>
+                    <h1 className="display-4">(React) Google Books Search</h1>
+                    <p className="lead">Search for and save books that have your interest</p>
+                    <hr className="my-4" />
+                    <p className="lead">
+                        <Link className="btn btn-default btn-lg" to="/" role="button">New Search</Link>
+                        <Link className="btn btn-default btn-lg" to="/saved" role="button">Saved Books</Link>
+                    </p>
+                </Jumbotron>
+                <Container>
+                    <form>
+                        <Input
+                            value={this.state.title}
+                            onChange={this.handleInputChange}
+                            name="title"
+                            label="Book Title"
+                            placeholder="Search Book Title (required)"
+                        />
+                        <FormBtn
+                            onClick={this.handleFormSubmit}
+                            className="btn btn-info"
+                        >
+                            Search
+            </FormBtn>
+                    </form>
+                </Container>
+            </div>
         );
     }
 }
 
 export default Search;
+

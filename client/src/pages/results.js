@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import { Container } from "../../components/grid";
-import { List, BookListItem } from "../../components/bookList";
+import { List, ListItem } from "../../components/list";
+import Button from "../../components/button";
 import Jumbotron from "../../components/jumbotron";
 import API from "../../utils/API";
-import Button from "../../components/button";
 
-class Saved extends Component {
+class Results extends Component {
     state = {
         books: [],
         target: "",
@@ -14,30 +14,29 @@ class Saved extends Component {
     };
 
     componentDidMount() {
-        this.getSavedBooks();
+        const data = this.props.location.data
+        if (data && data.results.length > 0) {
+
+            this.setState({
+                books: data.results.filter((value, index) => index < 5),
+                target: "_blank"
+            });
+        } else {
+            this.setState({
+                noResults: true
+            });
+        }
     }
 
-    getSavedBooks = () => {
-        API.getSavedBooks()
+    saveBook = book => {
+        API.saveBook(book)
             .then(res => {
-                if (res.data.length > 0) {
-                    this.setState({
-                        books: res.data,
-                        target: "_blank"
-                    });
-                } else {
-                    this.setState({
-                        noResults: true
-                    });
-                }
-
+                const currentBooks = this.state.books;
+                const filterBooks = currentBooks.filter(book => book.id !== res.data.id);
+                this.setState({
+                    books: filterBooks
+                });
             })
-            .catch(err => console.log(err));
-    }
-
-    deleteBook = id => {
-        API.deleteBook(id)
-            .then(res => this.getSavedBooks())
             .catch(err => console.log(err));
     }
 
@@ -47,7 +46,7 @@ class Saved extends Component {
                 <div>
                     <Jumbotron>
                         <h1 className="display-4">(React) Google Books Search</h1>
-                        <p className="lead">Search for books that have your interest.</p>
+                        <p className="lead">Search books that interest you.</p>
                         <hr className="my-4" />
                         <p className="lead">
                             <Link className="btn btn-default btn-lg" to="/" role="button">New Search</Link>
@@ -55,7 +54,7 @@ class Saved extends Component {
                         </p>
                     </Jumbotron>
                     <Container>
-                        <Link to="/">You have no saved books. Click here to find some.</Link>
+                        <Link to="/">No results - click here to search again.</Link>
                     </Container>
                 </div>
             )
@@ -72,38 +71,44 @@ class Saved extends Component {
                     </p>
                 </Jumbotron>
                 <Container>
-                    <h2>Saved Books</h2>
+                    <h2>Search Results</h2>
                     <List>
-                        {this.state.books.map(book => (
-                            <BookListItem key={book._id}>
+                        {this.state.books.map((book, index) => (
+                            <ListItem key={book.id}>
                                 <div className="date-div">
                                     <a
-                                        key={book._id + "link"}
-                                        href={book.link}
+                                        key={"" + index + book.id}
+                                        href={book.volumeInfo.infoLink}
                                         target={this.state.target}
                                     >
-                                        {book.title}
+                                        {book.volumeInfo.title}
                                     </a>
-                                    <p>Written By {book.author}</p>
+                                    <p>Written By {book.volumeInfo.authors[0]}</p>
                                     <p>
                                         <img align="left" style={{ paddingRight: 10 }}
-                                            src={book.image} alt="new"
+                                            src={book.volumeInfo.imageLinks.smallThumbnail} alt="new"
                                         />
-                                        {book.description}
+                                        {book.volumeInfo.description}
                                     </p>
                                 </div>
                                 <div className="book-btn-div">
                                     <Button
-                                        key={book._id + "btn"}
+                                        key={"" + book.id + index}
                                         btntype="info"
-                                        id={book._id}
-                                        disabled={book.link === "/"}
-                                        onClick={() => this.deleteBook(book._id)}
+                                        disabled={book.volumeInfo.infoLink === "/"}
+                                        onClick={() => this.saveBook({
+                                            title: book.volumeInfo.title,
+                                            author: book.volumeInfo.authors[0],
+                                            description: book.volumeInfo.description,
+                                            image: book.volumeInfo.imageLinks.smallThumbnail,
+                                            link: book.volumeInfo.infoLink,
+                                            _id: book.id
+                                        })}
                                     >
-                                        Delete
-                </Button>
+                                        Save
+                  </Button>
                                 </div>
-                            </BookListItem>
+                            </ListItem>
                         ))}
                     </List>
                 </Container>
@@ -112,4 +117,4 @@ class Saved extends Component {
     }
 }
 
-export default Saved;
+export default Results;

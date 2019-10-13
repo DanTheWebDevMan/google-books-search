@@ -3,7 +3,8 @@ import axios from "axios";
 export default {
     // Gets all books
     getBooks: function () {
-        return axios.get("/api/books");
+        //You can perform a volumes search by sending an HTTP GET request to the following URI: https://www.googleapis.com/books/v1/volumes?q=search+terms
+        return axios.get("https://www.googleapis.com/books/v1/volumes?q=" + title);
     },
     // Gets the book with the given id
     getBook: function (id) {

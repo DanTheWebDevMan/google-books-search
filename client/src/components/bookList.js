@@ -1,9 +1,9 @@
 import React from "react";
-import Thumbnail from "../Thumbnail";
-import { Container, Row, Col } from "../Grid";
+import Thumbnail from "../thumbnail";
+import { Container, Row, Col } from "../grid";
 
 // renders a bootstrap list item
-export function BookList({ children }) {
+export function List({ children }) {
     return (
         <ul className="list-group">{children}</ul>
     );
