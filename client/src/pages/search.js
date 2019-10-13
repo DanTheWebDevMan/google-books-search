@@ -1,10 +1,10 @@
 
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-import Jumbotron from "../../components/jumbotron";
-import API from "../../utils/API";
-import { Container } from "../../components/grid";
-import { Input, FormBtn } from "../../components/form";
+import Jumbotron from "/../components/jumbotron";
+import API from "/../utils/API";
+import { Container } from "/../components/grid";
+import { Input, FormBtn } from "/../components/form";
 
 class Search extends Component {
     state = {

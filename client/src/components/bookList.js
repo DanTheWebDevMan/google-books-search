@@ -1,6 +1,6 @@
 import React from "react";
-import Thumbnail from "../thumbnail";
-import { Container, Row, Col } from "../grid";
+import Thumbnail from "/thumbnail";
+import { Container, Row, Col } from "/grid";
 
 // renders a bootstrap list item
 export function List({ children }) {

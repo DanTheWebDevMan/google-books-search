@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import { Container } from "../../components/grid";
-import { List, ListItem } from "../../components/list";
+import { List, BookListItem } from "../../components/list";
 import Button from "../../components/button";
 import Jumbotron from "../../components/jumbotron";
 import API from "../../utils/API";
@@ -74,7 +74,7 @@ class Results extends Component {
                     <h2>Search Results</h2>
                     <List>
                         {this.state.books.map((book, index) => (
-                            <ListItem key={book.id}>
+                            <BookListItem key={book.id}>
                                 <div className="date-div">
                                     <a
                                         key={"" + index + book.id}
@@ -108,7 +108,7 @@ class Results extends Component {
                                         Save
                   </Button>
                                 </div>
-                            </ListItem>
+                            </BookListItem>
                         ))}
                     </List>
                 </Container>
