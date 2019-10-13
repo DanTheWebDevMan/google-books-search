@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BookList, BookListItem } from "../../components/BookList";
 import axios from "axios";
 import EmptyList from '../../components/EmptyList';
-import RemoveBookBtn from '../../components/RemoveBookBtn';
+import DeleteBookBtn from '../../components/deletebtn';
 //React-Toastify allow you to add notification to your app
 import { toast } from 'react-toastify';
 
@@ -56,7 +56,7 @@ class Saved extends Component {
                                                 thumbnail={book.thumbnail}
                                             // delete={()=> this.deleteFromDB(book._id)}
                                             />
-                                            <RemoveBookBtn
+                                            <DeleteBookBtn
                                                 onClick={() => this.deleteFromDB(book._id)}
                                             />
                                         </div>

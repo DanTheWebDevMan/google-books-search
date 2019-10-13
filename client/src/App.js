@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
-import Books from "./pages/Books";
+import Saved from "./pages/saved";
+import Search from "./pages/search";
 import Nav from "./components/nav";
-import Saved from "./pages/Saved";
-import Search from "./pages/Search";
-import Nav from "./components/Nav";
 import { ToastContainer, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
