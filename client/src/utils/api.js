@@ -1,4 +1,5 @@
 import axios from "axios";
+import title from "/title";
 
 export default {
     // Gets all books
