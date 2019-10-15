@@ -10,6 +10,7 @@ const App = () => (
       <Switch>
         <Route exact path="/" component={Search} />
         <Route exact path="/saved" component={Saved} />
+        //configure a route for results compnent
         <Route component={NoMatch} />
       </Switch>
     </div>

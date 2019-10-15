@@ -1,10 +1,10 @@
 
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-import Jumbotron from "/components/jumbotron";
+import Jumbotron from "../components/jumbotron";
 import API from "../utils/API";
-import { Container } from "/components/grid";
-import { Input, FormBtn } from "/components/form";
+import { Container } from "../components/grid";
+import { Input, FormBtn } from "../components/formbutton";
 
 class Search extends Component {
     state = {
@@ -26,11 +26,9 @@ class Search extends Component {
 
             const title = this.state.title.trim();
 
-            API.getNewBooks(title)
+            API.getBooks(title)
                 .then(res => {
-
                     console.log(res.data.items);
-
                     this.setState({
                         toResults: true,
                         results: res.data.items

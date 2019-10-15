@@ -1,9 +1,9 @@
 import axios from "axios";
-import title from "/title";
+
 
 export default {
     // Gets all books
-    getBooks: function () {
+    getBooks: function (title) {
         //You can perform a volumes search by sending an HTTP GET request to the following URI: https://www.googleapis.com/books/v1/volumes?q=search+terms
         return axios.get("https://www.googleapis.com/books/v1/volumes?q=" + title);
     },

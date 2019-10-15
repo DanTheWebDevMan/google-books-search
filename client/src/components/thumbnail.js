@@ -1,5 +1,5 @@
 import React from "react";
-import "/thumbnail.css"
+import "./thumbnail.css"
 
 // The Thumbnail component renders a div that uses CSS to render a background image
 
