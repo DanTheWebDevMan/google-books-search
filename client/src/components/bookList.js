@@ -9,7 +9,7 @@ export function List({ children }) {
     );
 }
 
-// RecipeListItem renders a bootstrap list item containing data from the recipe api call
+// ListItem renders a bootstrap list item containing data from the api call
 export class BookListItem extends React.Component {
 
     render() {
