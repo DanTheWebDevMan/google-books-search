@@ -22,3 +22,11 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.form-control {
+  text-align: center;
+}
+
+.btn {
+  margin: 20px;
+}

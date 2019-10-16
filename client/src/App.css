@@ -3,3 +3,11 @@
     text-align: center;
     margin: auto;
 }
+
+.form-control {
+    text-align: center;
+  }
+  
+  .btn {
+    margin: 20px;
+  }
